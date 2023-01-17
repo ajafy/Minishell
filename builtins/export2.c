@@ -6,7 +6,7 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 19:42:11 by ozahid-           #+#    #+#             */
-/*   Updated: 2023/01/16 20:45:01 by ozahid-          ###   ########.fr       */
+/*   Updated: 2023/01/17 17:35:45 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,29 @@ void	ft_join(t_env *update, char *content, char *name)
 	}
 }
 
-void	ft_update(t_env *env, char *content, char *name)
+void	ft_update(t_env *tmp, char *content, char *name)
 {
 	char	*str;
-	t_env	*tmp;
 
 	str = NULL;
-	tmp = env;
-	tmp = return_node(env, name);
 	if (content)
 		str = ft_strchr(content, '=');
-	if (str && check_name(env, name))
+	if (str && tmp)
 	{
 		if (str[0] == '=' && str[1] == '\0')
 		{
 			tmp->i = 1;
+			free(tmp->value);
 			tmp->value = NULL;
 		}
 		else if (str[0] == '=' && str[1] != '\0')
 		{
 			tmp->i = 1;
+			free(tmp->value);
 			tmp->value = ft_strdup(++str);
 		}
 	}
+	free(name);
 }
 
 char	*get_content(char *content, int *n)
@@ -93,6 +93,14 @@ char	*get_content(char *content, int *n)
 	return (NULL);
 }
 
+void	ft_update_node(char *cnt, char *name, t_env *update)
+{
+	if (!check_plus(cnt))
+		ft_update(update, cnt, name);
+	else if (check_plus(cnt))
+		ft_join(update, cnt, name);
+}
+
 int	ft_addnode(t_env *env, char *cnt)
 {
 	t_env	*new;
@@ -105,20 +113,16 @@ int	ft_addnode(t_env *env, char *cnt)
 	new = NULL;
 	name = dup_name(cnt);
 	if (is_valid(name, cnt))
-		return (fprint(2, "minishell: export: %s\
-		: not valid identifier\n", cnt), 1);
+		return (free(name), fprint(2, "minishell: export: %s"
+		": not valid identifier\n", cnt), 1);
 	update = return_node(env, name);
+	if (update)
+		return (ft_update_node(cnt, name, update), 0);
 	content = get_content(cnt, &n);
-	if (!check_plus(cnt))
-		ft_update(env, cnt, name);
 	if (check_name(env, name) == 0 && content != NULL && content[0] == '\0')
 		content = free_and(content);
-	ft_join(update, cnt, name);
-	if (!check_name(env, name))
-	{
-		new = ft_envnew(content, name);
-		new->i = n;
-		lst_addback_env(&env, new);
-	}
+	new = ft_envnew(content, name);
+	new->i = n;
+	lst_addback_env(&env, new);
 	return (0);
 }

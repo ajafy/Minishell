@@ -6,38 +6,11 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 01:56:02 by ozahid-           #+#    #+#             */
-/*   Updated: 2023/01/16 20:42:40 by ozahid-          ###   ########.fr       */
+/*   Updated: 2023/01/17 19:06:59 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_env	*init_env(char **env)
-{
-	t_env	*lnv;
-	t_env	*new;
-	char	**str;
-	int		i;
-
-	i = 1;
-	new = NULL;
-	lnv = NULL;
-	if (!*env)
-	{
-		lnv = empty_env(lnv, new);
-		return (lnv);
-	}
-	str = ft_split(env[0], '=');
-	lnv = ft_envnew(str[1], str[0]);
-	while (env[i])
-	{
-		str = ft_split(env[i], '=');
-		new = ft_envnew(str[1], str[0]);
-		lst_addback_env(&lnv, new);
-		i++;
-	}
-	return (lnv);
-}
 
 char	*get_path(t_env *data)
 {
@@ -66,7 +39,7 @@ char	*path(t_env *data, char *cmd)
 
 	i = 0;
 	data->value = get_path(data);
-	if (access(cmd, X_OK || F_OK) == 0)
+	if (check_char(cmd, '/') || access(cmd, X_OK || F_OK) == 0)
 		return (cmd);
 	path = ft_split(data->value, ':');
 	while (path[i])
@@ -77,7 +50,7 @@ char	*path(t_env *data, char *cmd)
 			break ;
 		i++;
 	}
-	if (access(path[i], X_OK || F_OK) != 0)
+	if (path[i] && access(path[i], X_OK || F_OK) != 0)
 		fprint(2, "Minishell: %s: command not found\n", cmd);
 	if (path[i] == NULL)
 		return (cmd);
@@ -87,7 +60,9 @@ char	*path(t_env *data, char *cmd)
 int	ft_fork(t_pip p, t_env *env, t_list *cmd, int *fd)
 {
 	char	**arg;
+	char	*pat;
 
+	pat = path(env, *cmd->cmd);
 	arg = get_arg(env);
 	p.id = fork();
 	if (p.id == -1)
@@ -101,11 +76,13 @@ int	ft_fork(t_pip p, t_env *env, t_list *cmd, int *fd)
 		{
 			if (cmd->red && ft_execred(cmd) == 1)
 				exit(1);
-			execve(path(env, *cmd->cmd), cmd->cmd, arg);
+			execve(pat, cmd->cmd, arg);
+			perror(*cmd->cmd);
 			exit (0);
 		}
 		exit(0);
 	}
+	ft_freetab(arg);
 	return (0);
 }
 
