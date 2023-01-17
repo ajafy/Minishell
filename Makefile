@@ -6,7 +6,7 @@
 #    By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/01 18:38:23 by ajafy             #+#    #+#              #
-#    Updated: 2023/01/15 16:27:45 by ozahid-          ###   ########.fr        #
+#    Updated: 2023/01/17 19:51:47 by ozahid-          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ build/%.o : %.c
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJ) $(HEADER)
-	@$(CC)  $(OBJ) -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -o \
+	@$(CC) -fsanitize=address $(OBJ) -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -o \
 	$(NAME) $(LIBFT)
 	@echo "Minishell Maked"
 
