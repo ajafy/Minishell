@@ -6,7 +6,7 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:39:31 by ajafy             #+#    #+#             */
-/*   Updated: 2023/01/17 17:40:09 by ozahid-          ###   ########.fr       */
+/*   Updated: 2023/01/18 15:46:58 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,10 @@ char	**get_arg(t_env *env)
 	}
 	str[i] = 0;
 	return (str);
+}
+
+void	exit_with(int nb)
+{
+	exit(nb);
+	g_exit_status = nb;
 }

@@ -6,7 +6,7 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 16:33:35 by ozahid-           #+#    #+#             */
-/*   Updated: 2023/01/17 18:21:05 by ozahid-          ###   ########.fr       */
+/*   Updated: 2023/01/18 15:19:30 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ int	ft_execred(t_list *lst)
 
 t_env	*empty_env(t_env *lnv, t_env *new)
 {
+	new = ft_envnew(getcwd(NULL, 0), ft_strdup("PWD"));
+	lst_addback_env(&lnv, new);
 	new = ft_envnew(ft_strdup(PATH), ft_strdup("PATH"));
 	lst_addback_env(&lnv, new);
 	new = ft_envnew(NULL, ft_strdup("OLDPWD"));
-	lst_addback_env(&lnv, new);
-	new = ft_envnew(getcwd(NULL, 0), ft_strdup("PWD"));
 	lst_addback_env(&lnv, new);
 	return (lnv);
 }

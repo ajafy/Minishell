@@ -6,7 +6,7 @@
 /*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 21:32:59 by ajafy             #+#    #+#             */
-/*   Updated: 2023/01/16 17:09:45 by ozahid-          ###   ########.fr       */
+/*   Updated: 2023/01/17 23:50:06 by ozahid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_pip
 /*
 	Redirections_list
 */
-
+void	exit_with(int nb);
 t_red	*ft_lstnew_red(void *content, int type, int fd);
 t_red	*ft_lstlast_red(t_red *lst);
 void	ft_lstadd_back_red(t_red **alst, t_red *new);
