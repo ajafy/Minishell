@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozahid- <ozahid-@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajafy <ajafy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 23:54:26 by ozahid-           #+#    #+#             */
-/*   Updated: 2023/01/23 17:19:04 by ozahid-          ###   ########.fr       */
+/*   Updated: 2023/07/06 17:07:10 by ajafy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	cd_cond2(t_list *lst, int *i, t_env *env)
 
 	g_exit_status = 0;
 	if ((lst->cmd != NULL
-			&& ft_strcmp(lst->cmd[0], "cd") == 0 && lst->cmd[1] == '\0')
+			&& ft_strcmp(lst->cmd[0], "cd") == 0 && lst->cmd[1] == NULL)
 		|| (ft_strcmp(lst->cmd[0], "cd") == 0
 			&& ft_strcmp(lst->cmd[1], "~") == 0))
 		cd_home(env);

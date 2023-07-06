@@ -6,7 +6,7 @@
 /*   By: ajafy <ajafy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 01:56:02 by ozahid-           #+#    #+#             */
-/*   Updated: 2023/01/24 18:44:20 by ajafy            ###   ########.fr       */
+/*   Updated: 2023/07/06 17:06:31 by ajafy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*path_utils(char **path, t_env *data, char *cmd, char *ret)
 	{
 		path[i] = ft_strjoin(path[i], "/");
 		path[i] = ft_strjoin(path[i], cmd);
-		if (!access (path[i], X_OK || F_OK))
+		if (!access (path[i], X_OK | F_OK))
 			break ;
 		i++;
 	}
@@ -40,7 +40,7 @@ char	*path(t_env *data, char *cmd)
 
 	path = NULL;
 	ret = cmd;
-	if (check_char(ret, '/') && access(ret, X_OK || F_OK) != 0)
+	if (check_char(ret, '/') && access(ret, X_OK | F_OK) != 0)
 	{
 		fprint(2, "minishell: %s: No such file or directory\n",
 			ret);
@@ -49,7 +49,7 @@ char	*path(t_env *data, char *cmd)
 	data = return_node(data, "PATH");
 	if (!data)
 		return (cmd);
-	if (access(cmd, X_OK || F_OK) == 0)
+	if (access(cmd, X_OK | F_OK) == 0)
 		return (cmd);
 	if (data->value)
 		ret = path_utils(path, data, cmd, ret);
