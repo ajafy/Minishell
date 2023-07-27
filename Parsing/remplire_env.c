@@ -6,7 +6,7 @@
 /*   By: ajafy <ajafy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/27 11:01:09 by ajafy             #+#    #+#             */
-/*   Updated: 2023/01/20 10:16:11 by ajafy            ###   ########.fr       */
+/*   Updated: 2023/07/27 19:18:11 by ajafy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ t_env	*ft_remplire_env(char **content)
 	while (content[i])
 	{
 		tab = ft_split(content[i], '=');
-		lst_addback_env(&env, ft_envnew(tab[1], tab[0]));
-		free(tab);
+		lst_addback_env(&env, ft_envnew(ft_strdup(tab[1]), ft_strdup(tab[0])));
+		ft_freetab(tab);
 		i++;
 	}
 	return (env);
